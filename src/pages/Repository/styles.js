@@ -1,4 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes } from "styled-components";
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg)
+  }
+
+  to {
+    transform: rotate(360deg)
+  }
+`;
 
 export const Loading = styled.div`
   color: #fff;
@@ -43,10 +53,8 @@ export const Owner = styled.header`
 `;
 
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
-  border-top: 1px solid #eee;
   list-style: none;
+  margin-top: 30px;
 
   li {
     display: flex;
@@ -99,5 +107,86 @@ export const IssueList = styled.ul`
         color: #999;
       }
     }
+  }
+`;
+
+export const IssueOptions = styled.div`
+  padding-top: 30px;
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+`;
+
+export const IssueOption = styled.button.attrs(props => ({
+  type: "button",
+  onClick: props.onClick
+}))`
+  background-color: ${props => props.color};
+  border: 0;
+  color: #fff;
+  padding: 5px 10px;
+  min-width: 100px;
+  font-weight: 900;
+  border-radius: 6px;
+
+  & + button {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+`;
+
+export const LoadingIssues = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  svg {
+    animation: ${rotate} 2s linear infinite;
+  }
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 15px;
+`;
+
+export const PaginationButton = styled.button.attrs(props => ({
+  type: "button",
+  disabled: props.page === 1
+}))`
+  background-color: #7159c1;
+  border: 0;
+  color: #fff;
+  padding: 5px 10px;
+  min-width: 100px;
+  font-weight: 900;
+  border-radius: 6px;
+
+  & + button {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 `;

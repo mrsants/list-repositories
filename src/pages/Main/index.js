@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { Form, SubmitButton, List } from './styles';
-import Container from '../../components/Container';
-
-import api from '../../services/api';
+import React, { Component } from "react";
+import { FaGithubAlt, FaPlus, FaSpinner } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Form, SubmitButton, List } from "./styles";
+import Container from "../../components/Container";
+import api from "../../services/api";
 
 export default class Main extends Component {
   state = {
-    newRepo: '',
+    newRepo: "",
     repositories: [],
-    loading: false,
+    loading: false
   };
 
   componentDidMount() {
-    const repositories = localStorage.getItem('repositories');
+    const repositories = localStorage.getItem("repositories");
 
     if (repositories) {
       this.setState({ repositories: JSON.parse(repositories) });
@@ -24,7 +23,7 @@ export default class Main extends Component {
   componentDidUpdate(_, prevState) {
     const { repositories } = this.state;
     if (prevState.repositories !== repositories) {
-      localStorage.setItem('repositories', JSON.stringify(repositories));
+      localStorage.setItem("repositories", JSON.stringify(repositories));
     }
   }
 
@@ -36,18 +35,24 @@ export default class Main extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     const { newRepo, repositories } = this.state;
-    const response = await api.get(`/repos/${newRepo}`);
 
-    const data = {
-      name: response.data.full_name,
-    };
+    if (newRepo === "") {
+      alert("Digite um repositório");
+      this.setState({ loading: false });
+    } else {
+      const response = await api.get(`/repos/${newRepo}`);
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-    });
+      const data = {
+        name: response.data.full_name
+      };
 
-    this.setState({ loading: false });
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: ""
+      });
+
+      this.setState({ loading: false });
+    }
   };
 
   render() {
@@ -61,7 +66,7 @@ export default class Main extends Component {
         <Form onSubmit={this.handleSubmit}>
           <input
             type="text"
-            placeholder="Adicionar repositório"
+            placeholder="Adicionar repositório: (Facebook/React)"
             value={newRepo}
             onChange={this.handleInputChange}
           />
